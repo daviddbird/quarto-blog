@@ -1,0 +1,14 @@
+{
+  "hash": "23401e63ed559aae2abcca8dea1a009f",
+  "result": {
+    "markdown": "---\ntitle: \"The explore R package\"\nauthor: \"David Bird\"\ndate: \"2024-02-29\"\ncategories: [news, code, analysis]\n---\n\n\nThis is a post with executable code.\n\n![](image1.png)\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n[1] 2\n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

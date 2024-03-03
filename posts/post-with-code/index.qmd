@@ -1,0 +1,14 @@
+---
+title: "The explore R package"
+author: "David Bird"
+date: "2024-02-29"
+categories: [news, code, analysis]
+---
+
+This is a post with executable code.
+
+![](image1.png)
+
+```{r}
+1 + 1
+```
