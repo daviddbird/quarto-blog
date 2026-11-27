@@ -1,6 +1,9 @@
-.Rproj.user
-.Rhistory
-.Rdata
-.httr-oauth
+data/raw/
+data/interim/*
+!data/interim/.gitkeep
+.ipynb_checkpoints/
+__pycache__/
+.venv/
 .DS_Store
-.quarto
+/.quarto/
+# _site/ is deliberately NOT ignored: see README (render locally, Netlify serves it)

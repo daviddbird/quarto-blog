@@ -2,29 +2,22 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Another Quarto blog!",
+    "title": "David Bird",
     "section": "",
-    "text": "The explore R package\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nFeb 29, 2024\n\n\nDavid Bird\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nFeb 26, 2024\n\n\nDavid Bird\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "The explore R package",
-    "section": "",
-    "text": "This is a post with executable code.\n\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+    "text": "I turn messy, real-world data into decisions people can act on.\nThe projects here use public data only, show the method as well as the result, and link to the code.\nSee projects"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this blog: It is an experiment with Quarto and reviving my interest in R."
+    "text": "I’m a data analyst based in Edinburgh. I enjoy the part of analysis that comes before the charts: working out what the question really is, getting messy data into a trustworthy shape, and explaining the result so people can act on it. I work mostly in SQL and Python, with R, Power BI and Microsoft Fabric where the job calls for them.\nI started in GIS at Esri UK, where I spent seven years supporting projects, before retraining in data analysis at CodeClan in 2019. I then worked as a data scientist at Topolytics working on a digital waste tracking POC, and as a business intelligence analyst at the University of Edinburgh’s School of Engineering working on their Work Allocation Mannagement (WAM) system and helping to improve reporting within the School. Since October 2025 I’ve been a data analyst at Hyble, working on data pipelines and reporting in Microsoft Fabric and Power BI, integrating HubSpot and UserPilot data. I also use Claude to work faster and more carefully, and I’ve built tools for my team’s commercial staff.\nThis site is where I work through problems in public. Every project uses open data, shows the method as well as the result, and links to the code."
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "No matching items"
   }
 ]
