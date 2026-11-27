@@ -1,68 +1,5 @@
 [
   {
-    "objectID": "projects/waste-operators/index.html",
-    "href": "projects/waste-operators/index.html",
-    "title": "Who really handles England’s waste?",
-    "section": "",
-    "text": "TODO: 3 to 4 sentences. Lead with the finding, e.g. “The top 10 operator groups handle X% of [waste category] tonnage in [region/year]; matching names to legal entities changes the picture by Y points.” Write this last."
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#summary",
-    "href": "projects/waste-operators/index.html#summary",
-    "title": "Who really handles England’s waste?",
-    "section": "",
-    "text": "TODO: 3 to 4 sentences. Lead with the finding, e.g. “The top 10 operator groups handle X% of [waste category] tonnage in [region/year]; matching names to legal entities changes the picture by Y points.” Write this last."
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#the-question",
-    "href": "projects/waste-operators/index.html#the-question",
-    "title": "Who really handles England’s waste?",
-    "section": "The question",
-    "text": "The question\nWaste tonnage is reported by permitted site, and operators appear under inconsistent names, trading names and subsidiaries. Once operators are resolved to legal entities and parent groups:\n\nHow concentrated is waste handling?\nWhere does waste flow between regions?\n\nScope: TODO (one waste category or region, one year)."
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#data",
-    "href": "projects/waste-operators/index.html#data",
-    "title": "Who really handles England’s waste?",
-    "section": "Data",
-    "text": "Data\n\n\n\n\n\n\n\n\nSource\nWhat it provides\nLicence / access\n\n\n\n\nEA Waste Data Interrogator\nTonnes received and removed by site, waste type, facility type, origin\nTODO\n\n\nEA public register of permits\nOperator names, site details\nTODO\n\n\nCompanies House bulk data / API\nRegistered names, numbers, status, addresses, PSC\nTODO\n\n\n\nSnapshot dates and file versions: TODO.\n\n\nCode\nimport duckdb\nimport pandas as pd\nimport plotly.express as px\n\ncon = duckdb.connect()"
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#cleaning-and-standardising",
-    "href": "projects/waste-operators/index.html#cleaning-and-standardising",
-    "title": "Who really handles England’s waste?",
-    "section": "Cleaning and standardising",
-    "text": "Cleaning and standardising\nTODO: what was wrong with the raw data, and what you did about it (suffix stripping, case, punctuation, duplicate sites, missing values).\n\n\nCode\n# from src.waste_operators.clean import standardise_name"
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#matching-operators-to-legal-entities",
-    "href": "projects/waste-operators/index.html#matching-operators-to-legal-entities",
-    "title": "Who really handles England’s waste?",
-    "section": "Matching operators to legal entities",
-    "text": "Matching operators to legal entities\nApproach, in stages:\n\nExact match on standardised name.\nFuzzy match (TODO: rapidfuzz or Splink), with postcode and address as supporting evidence.\nRoll up to parent groups using Persons with Significant Control where available.\n\n\n\nCode\n# from src.waste_operators.match import match_operators\n\n\n\nHow well does it work?\nHand-labelled sample of TODO pairs (target 100 to 200).\n\n\n\nStage\nPrecision\nRecall\nNotes\n\n\n\n\nExact\nTODO\nTODO\n\n\n\nFuzzy\nTODO\nTODO\n\n\n\n\nExamples of failures and why they happen: TODO."
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#results",
-    "href": "projects/waste-operators/index.html#results",
-    "title": "Who really handles England’s waste?",
-    "section": "Results",
-    "text": "Results\n\nConcentration\n\n\nCode\n# Top operators / groups by tonnage; share held by the top 10\n\n\n\n\nFlows between regions\n\n\nCode\n# Plotly or Altair chart\n\n\nTODO: 2 to 3 sentences interpreting each chart. Say what the reader should notice."
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#limitations",
-    "href": "projects/waste-operators/index.html#limitations",
-    "title": "Who really handles England’s waste?",
-    "section": "Limitations",
-    "text": "Limitations\n\nCoverage: TODO (what the data does not include)\nReporting quirks: TODO\nMatch uncertainty: TODO (how results change under stricter or looser matching)"
-  },
-  {
-    "objectID": "projects/waste-operators/index.html#next-steps-and-code",
-    "href": "projects/waste-operators/index.html#next-steps-and-code",
-    "title": "Who really handles England’s waste?",
-    "section": "Next steps and code",
-    "text": "Next steps and code\n\nRepository: TODO link\nPossible extensions: TODO (e.g. add SEPA data for Scotland, extend to more years)"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "David Bird",
@@ -81,6 +18,6 @@
     "href": "projects/index.html",
     "title": "Projects",
     "section": "",
-    "text": "Who really handles England’s waste?\n\n\n\nSQL\n\n\nPython\n\n\nentity matching\n\n\npublic data\n\n\n\nLinking waste site operators to Companies House to show who owns the capacity.\n\n\n\nDec 1, 2026\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "No matching items"
   }
 ]

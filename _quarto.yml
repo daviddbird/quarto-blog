@@ -6,6 +6,7 @@ project:
     - "projects/**/*.qmd"
 
 website:
+  draft-mode: gone
   title: "David Bird"
   navbar:
     left:
