@@ -1,19 +1,30 @@
 project:
   type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "projects/**/*.qmd"
 
 website:
   title: "David Bird"
   navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: projects/index.qmd
+        text: Projects
+      - href: about.qmd
+        text: About
     right:
-      - about.qmd
       - icon: github
         href: https://github.com/daviddbird
-      - icon: instagram
-        href: https://www.instagram.com/dav.id.bird/
+
 format:
   html:
-    theme: sketchy
-    css: styles.css
+    theme: cosmo
+    toc: true
+    code-fold: true
+    code-tools: true
 
-editor: visual
-
+execute:
+  freeze: auto   # re-run code only when a page changes; keeps Netlify builds free of data/runtime needs

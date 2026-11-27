@@ -1,0 +1,6 @@
+jupyter
+pandas
+duckdb
+plotly
+rapidfuzz
+# splink   # uncomment if you go the probabilistic route

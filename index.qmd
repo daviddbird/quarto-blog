@@ -1,12 +1,22 @@
 ---
-title: "Another Quarto blog!"
-listing:
-  contents: posts
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-page-layout: full
-title-block-banner: true
+title: "David Bird"
+subtitle: "Data analyst: SQL, Python, Power BI, Microsoft Fabric"
+about:
+  template: solana
+  image: profile.jpg
+  image-width: 12em
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/daviddbird
+format: 
+  html:
+    code-tools: false
 ---
+
+I turn messy, real-world data into decisions people can act on.
+
+The projects here use public data only, show the method as well as the result,
+and link to the code.
+
+[See projects](projects/index.qmd){.btn .btn-primary}

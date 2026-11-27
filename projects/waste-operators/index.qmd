@@ -1,0 +1,112 @@
+---
+title: "Who really handles England's waste?"
+description: "Linking waste site operators to Companies House to show who owns the capacity."
+date: "2026-12-01"
+categories: [SQL, Python, entity matching, public data]
+# image: thumbnail.png
+jupyter: python3
+---
+
+## Summary
+
+TODO: 3 to 4 sentences. Lead with the finding, e.g. "The top 10 operator groups
+handle X% of [waste category] tonnage in [region/year]; matching names to
+legal entities changes the picture by Y points." Write this last.
+
+## The question
+
+Waste tonnage is reported by permitted site, and operators appear under
+inconsistent names, trading names and subsidiaries. Once operators are resolved
+to legal entities and parent groups:
+
+- How concentrated is waste handling?
+- Where does waste flow between regions?
+
+Scope: TODO (one waste category or region, one year).
+
+## Data
+
+| Source | What it provides | Licence / access |
+|---|---|---|
+| EA Waste Data Interrogator | Tonnes received and removed by site, waste type, facility type, origin | TODO |
+| EA public register of permits | Operator names, site details | TODO |
+| Companies House bulk data / API | Registered names, numbers, status, addresses, PSC | TODO |
+
+Snapshot dates and file versions: TODO.
+
+```{python}
+#| label: setup
+#| eval: false
+import duckdb
+import pandas as pd
+import plotly.express as px
+
+con = duckdb.connect()
+```
+
+## Cleaning and standardising
+
+TODO: what was wrong with the raw data, and what you did about it
+(suffix stripping, case, punctuation, duplicate sites, missing values).
+
+```{python}
+#| label: clean
+#| eval: false
+# from src.waste_operators.clean import standardise_name
+```
+
+## Matching operators to legal entities
+
+Approach, in stages:
+
+1. Exact match on standardised name.
+2. Fuzzy match (TODO: rapidfuzz or Splink), with postcode and address as supporting evidence.
+3. Roll up to parent groups using Persons with Significant Control where available.
+
+```{python}
+#| label: match
+#| eval: false
+# from src.waste_operators.match import match_operators
+```
+
+### How well does it work?
+
+Hand-labelled sample of TODO pairs (target 100 to 200).
+
+| Stage | Precision | Recall | Notes |
+|---|---|---|---|
+| Exact | TODO | TODO | |
+| Fuzzy | TODO | TODO | |
+
+Examples of failures and why they happen: TODO.
+
+## Results
+
+### Concentration
+
+```{python}
+#| label: concentration
+#| eval: false
+# Top operators / groups by tonnage; share held by the top 10
+```
+
+### Flows between regions
+
+```{python}
+#| label: flows
+#| eval: false
+# Plotly or Altair chart
+```
+
+TODO: 2 to 3 sentences interpreting each chart. Say what the reader should notice.
+
+## Limitations
+
+- Coverage: TODO (what the data does not include)
+- Reporting quirks: TODO
+- Match uncertainty: TODO (how results change under stricter or looser matching)
+
+## Next steps and code
+
+- Repository: TODO link
+- Possible extensions: TODO (e.g. add SEPA data for Scotland, extend to more years)
