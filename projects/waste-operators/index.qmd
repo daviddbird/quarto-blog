@@ -4,110 +4,175 @@ description: "Linking waste site operators to Companies House to show who owns t
 date: "2026-12-01"
 categories: [SQL, Python, entity matching, public data]
 draft: true
-# image: thumbnail.png
 jupyter: python3
 ---
 
+```{python}
+#| label: setup
+#| include: false
+import sys
+sys.path.append("src")
+
+import pandas as pd
+```
+
 ## Summary
 
-TODO: 3 to 4 sentences. Lead with the finding, e.g. "The top 10 operator groups
-handle X% of [waste category] tonnage in [region/year]; matching names to
-legal entities changes the picture by Y points." Write this last.
+TODO: 3 to 4 sentences, written last. Lead with the finding, e.g. "In 2025 the ten largest
+operator groups received X% of the waste handled at permitted sites in England (excluding
+wastewater and treatment outputs). Linking operator names to legal entities and parent
+groups changes the ranking: [example]."
 
 ## The question
 
-Waste tonnage is reported by permitted site, and operators appear under
-inconsistent names, trading names and subsidiaries. Once operators are resolved
-to legal entities and parent groups:
+Every permitted waste site in England reports the waste it receives, and the Environment
+Agency publishes the results. Each site is listed under an operator name, but large
+companies run dozens of sites through separate legal entities. Veolia, for example,
+appears under many different company names in the data.
 
-- How concentrated is waste handling?
-- Where does waste flow between regions?
+Once operators are linked to legal entities and parent groups:
 
-Scope: TODO (one waste category or region, one year).
+- How concentrated is waste handling in England?
+- Which groups own the capacity?
 
 ## Data
 
-| Source | What it provides | Licence / access |
+| Source | What it provides | Notes |
 |---|---|---|
-| EA Waste Data Interrogator | Tonnes received and removed by site, waste type, facility type, origin | TODO |
-| EA public register of permits | Operator names, site details | TODO |
-| Companies House bulk data / API | Registered names, numbers, status, addresses, PSC | TODO |
+| EA Waste Data Interrogator 2025, "Wastes received" (Version 2) | 365,819 rows covering 6,307 permits and 3,782 operator names; 260.1M tonnes received | One row per site, waste type and origin |
+| EA Waste Data Interrogator 2025, "Wastes removed" (Version 2) | 134,811 rows covering 6,030 permits; 114.3M tonnes removed | Not used for the headline figures; planned for a later look at flows |
+| Companies House free company data | Registered names, company numbers, status, addresses | TODO: snapshot date; live companies only |
 
-Snapshot dates and file versions: TODO.
+## Sources and licences
+
+- Waste data: [2025 Waste Data Interrogator](https://www.data.gov.uk/dataset/b90c23d6-3bf7-4e6d-9d7b-304dc2640c27/2025-waste-data-interrogator), Environment Agency, Version 2. © Environment Agency copyright. Used under the [Environment Agency Conditional Licence](https://www.gov.uk/government/publications/environment-agency-conditional-licence/environment-agency-conditional-licence).
+- Company data: Companies House free company data product, snapshot of [date]. [Add the licence or attribution wording from the download page once checked.]
+
+This is my own analysis. The Environment Agency and Companies House have not reviewed or endorsed it, and the classifications and matches are mine and may contain errors.
+
+I checked the loaded data against the Environment Agency's own report in the workbook. For the removed-waste file, the total (114,259,980 tonnes) and the totals by waste chapter, fate and destination match exactly. The same holds for the received file.
+
+The permit number (EPR number) identifies a site reliably. The operator field is free text,
+and it is the thing this project links to legal entities.
+
+### What "tonnes received" does and doesn't mean
+
+Waste often passes through several sites: a transfer station receives it, and a treatment
+plant receives it from the transfer station. Each site reports it as received, so the
+figures measure throughput at sites, not how much waste England produces. Because of this
+I never add "received" and "removed" together, and I describe the measure as tonnes
+received throughout.
+
+## Scope
+
+I use all permitted sites in England for 2025, but exclude EWC chapter 19 ("waste and
+water treatment wastes") from the headline analysis. It is 100.9M of the 260.1M tonnes,
+and two sub-chapters explain most of it:
+
+- **Wastewater treatment plants: 52.6M tonnes from only 133 operators.** This is mainly
+  water company sewage sludge. Thames Water alone accounts for 32M tonnes in this chapter.
+- **Mechanical treatment of waste: 28.3M tonnes from 934 operators.** This is the output
+  of sorting and treatment sites, which is received again at the next site it goes to.
+
+Leaving it out leaves about 159M tonnes of mostly primary waste (construction and
+demolition, municipal, and commercial streams) received by 3,683 operators. Chapter 19 is
+reported separately at the end.
 
 ```{python}
-#| label: setup
+#| label: scope
 #| eval: false
 import duckdb
-import pandas as pd
-import plotly.express as px
 
-con = duckdb.connect()
+f = "'data/interim/waste_received_2025.parquet'"
+operators = duckdb.sql(f"""
+    SELECT operator, COUNT(DISTINCT epr_number) AS permits,
+           ROUND(SUM(tonnes_received)) AS tonnes_received
+    FROM {f}
+    WHERE ewc_chapter NOT LIKE '19%'
+    GROUP BY operator
+""").df()
 ```
 
-## Cleaning and standardising
+## Cleaning and standardising names
 
-TODO: what was wrong with the raw data, and what you did about it
-(suffix stripping, case, punctuation, duplicate sites, missing values).
+Within the EA data the operator names are already consistent: no permit appears under more
+than one spelling, and standardising removes only two duplicates among 3,782 names. So the
+work is in linking to Companies House, not in tidying the EA names.
+
+I standardise names (lower case, punctuation removed, `&` read as "and", leading "The"
+dropped) and split off the legal form (Limited, Ltd, PLC, LLP and so on). The legal form is
+kept as a separate field because two companies can share a stem and still be different
+legal entities. The same function is applied to Companies House names.
+
+| EA operator name | Stem | Legal form |
+|---|---|---|
+| VEOLIA ES (UK) LIMITED | veolia es uk | limited |
+| Alchemy Metals Limited t/a Waste Mission | alchemy metals | limited |
+| LONGWATER (GRAVEL) COMPANY LIMITED (THE) | longwater gravel company | limited |
 
 ```{python}
 #| label: clean
 #| eval: false
-# from src.waste_operators.clean import standardise_name
+from waste_operators.clean import split_legal_form, classify_operator
+
+operators[["stem", "legal_form"]] = operators["operator"].apply(
+    lambda n: pd.Series(split_legal_form(n))
+)
+operators["kind"] = operators["operator"].apply(classify_operator)
 ```
+
+### Operators that are not companies
+
+About 740 of the 3,683 operators have no legal form. Sorting them roughly by name:
+
+| Group | Operators | Tonnes received |
+|---|---|---|
+| Public bodies (mostly councils and NHS trusts) | about 129 | about 5.0M |
+| Individuals or unregistered businesses | about 583 | about 4.2M |
+| Unclear (for example skip hire firms with no suffix) | 31 | about 0.6M |
+
+These are rule-based groupings, not hand-checked. TODO: hand-check the unclear group and
+a sample of the others. Together they hold about 6% of the in-scope tonnage, so about 94%
+sits with operators whose names look like registered companies. TODO: confirm the exact figure.
 
 ## Matching operators to legal entities
 
-Approach, in stages:
+TODO: write after the Companies House data is loaded.
 
-1. Exact match on standardised name.
-2. Fuzzy match (TODO: rapidfuzz or Splink), with postcode and address as supporting evidence.
-3. Roll up to parent groups using Persons with Significant Control where available.
-
-```{python}
-#| label: match
-#| eval: false
-# from src.waste_operators.match import match_operators
-```
+1. Exact match on standardised stem and legal form.
+2. Fuzzy match on the rest (rapidfuzz or Splink), with typos such as "LIMTED" in mind.
+3. Roll up to parent groups.
 
 ### How well does it work?
 
-Hand-labelled sample of TODO pairs (target 100 to 200).
+TODO: hand-label 100 to 200 pairs, then report precision and recall.
 
 | Stage | Precision | Recall | Notes |
 |---|---|---|---|
 | Exact | TODO | TODO | |
 | Fuzzy | TODO | TODO | |
 
-Examples of failures and why they happen: TODO.
-
 ## Results
 
-### Concentration
+TODO: concentration of tonnage by group, the share held by the top 10, and the example
+that shows what changes when legal entities are rolled up to groups.
 
-```{python}
-#| label: concentration
-#| eval: false
-# Top operators / groups by tonnage; share held by the top 10
-```
+### Chapter 19, reported separately
 
-### Flows between regions
-
-```{python}
-#| label: flows
-#| eval: false
-# Plotly or Altair chart
-```
-
-TODO: 2 to 3 sentences interpreting each chart. Say what the reader should notice.
+TODO: a short section on water companies and treatment outputs.
 
 ## Limitations
 
-- Coverage: TODO (what the data does not include)
-- Reporting quirks: TODO
-- Match uncertainty: TODO (how results change under stricter or looser matching)
+- **Throughput, not generation.** Tonnes received counts waste each time a site receives it.
+- **Rule-based classification.** The split between companies, public bodies and individuals
+  is heuristic.
+- **Live companies only.** The Companies House free file lists live companies, so operators
+  that have since been dissolved or renamed may not match.
+- **One year.** This covers 2025 only.
+- **Permitted sites only.** The data covers permitted waste facilities in England and excludes exempt facilities.
+- TODO: match uncertainty (how the results change under stricter or looser matching).
 
 ## Next steps and code
 
 - Repository: TODO link
-- Possible extensions: TODO (e.g. add SEPA data for Scotland, extend to more years)
+- Possible extensions: TODO (the removed-waste flows between regions, earlier years, Scotland)

@@ -7,6 +7,8 @@ format:
 
 I'm a data analyst based in Edinburgh. I enjoy the part of analysis that comes before the charts: working out what the question really is, getting messy data into a trustworthy shape, and explaining the result so people can act on it. I work mostly in SQL and Python, with R, Power BI and Microsoft Fabric where the job calls for them.
 
-I started in GIS at Esri UK, where I spent seven years supporting projects, before retraining in data analysis at CodeClan in 2019. I then worked as a data scientist at Topolytics working on a digital waste tracking POC, and as a business intelligence analyst at the University of Edinburgh's School of Engineering working on their Work Allocation Mannagement (WAM) system and helping to improve reporting within the School. Since October 2025 I've been a data analyst at Hyble, working on data pipelines and reporting in Microsoft Fabric and Power BI, integrating HubSpot and UserPilot data. I also use Claude to work faster and more carefully, and I've built tools for my team's commercial staff.
+I started in GIS at Esri UK, where I spent seven years supporting projects, before retraining in data analysis at CodeClan in 2019. I then worked as a data scientist at Topolytics working on a digital waste tracking POC, and as a business intelligence analyst at the University of Edinburgh's School of Engineering working on their Work Allocation Management (WAM) system and helping to improve reporting within the School. Since October 2025 I've been a data analyst at Hyble, working on data pipelines and reporting in Microsoft Fabric and Power BI, integrating HubSpot and UserPilot data. I also use Claude to work faster and more carefully, and I've built tools for my team's commercial staff.
 
 This site is where I work through problems in public. Every project uses open data, shows the method as well as the result, and links to the code. 
+
+[Contact me on LinkedIn](https://uk.linkedin.com/in/daviddbird)
