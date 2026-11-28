@@ -4,3 +4,4 @@ duckdb
 plotly
 rapidfuzz
 # splink   # uncomment if you go the probabilistic route
+pyxlsb

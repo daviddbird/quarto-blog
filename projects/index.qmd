@@ -1,9 +1,12 @@
 ---
 title: "Projects"
-listing:
-  contents: "*/index.qmd"
-  type: grid
-  sort: "date desc"
-  fields: [image, title, description, categories, date]
 page-layout: full
+# listing is switched off until the first project is published:
+# listing:
+#   contents: "*/index.qmd"
+#   type: grid
+#   sort: "date desc"
+#   fields: [image, title, description, categories, date]
 ---
+
+My first project is coming soon: an analysis of who owns England's waste-handling capacity, linking Environment Agency waste data to Companies House.
